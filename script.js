@@ -1,6 +1,7 @@
-const card = document.querySelector(".card");
+const cardList = document.querySelectorAll(".card");
 
-card.addEventListener("click", (event) => {
-    card.textContent = "1"
+cardList.forEach((card) => {
+    card.addEventListener("click", () => {
+        card.textContent = card.textContent === "?" ? "1" : "?";
+    })
 })
-
