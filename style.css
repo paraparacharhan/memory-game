@@ -1,0 +1,10 @@
+.card {
+    display: inline-block;
+    width: 100px;
+    height: 154px;
+    background-color: red;
+    border: solid 1px;
+    border-color: black;
+    border-radius: 10%;
+    font-size: 50px;
+}
