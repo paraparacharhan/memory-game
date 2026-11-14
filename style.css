@@ -1,8 +1,25 @@
+.card-block {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(154px, 1fr));
+    gap: 25px;
+
+}
+
+@media screen and (min-width: 1600px) {
+    .card-block {
+        display: grid;
+        grid-template-columns: repeat(13, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        gap: 25px;
+        margin: auto;
+    }
+}
+
 .card {
     display: inline-block;
-    width: 100px;
-    height: 154px;
-    background-color: red;
+    aspect-ratio: 100/154;
+    background-color: blueviolet;
     border: solid 1px;
     border-color: black;
     border-radius: 10%;
