@@ -1,6 +1,8 @@
 const cards = document.querySelectorAll(".card");
+const message = document.querySelector("#clear-message");
 
 const pairList = [];
+const cardList = [];
 cards.forEach((card) => {
     card.addEventListener("click", () => {
         if (card.textContent !== "?" || pairList.length === 2) return;
@@ -11,8 +13,11 @@ cards.forEach((card) => {
         if (pairList.length === 2) {
             if (pairList[0].dataset.rank === pairList[1].dataset.rank) {
                 console.log("一致");
-                pairList.pop();
-                pairList.pop();
+                cardList.push(pairList.pop());
+                cardList.push(pairList.pop());
+                if (cardList.length === cards.length) {
+                    message.textContent = "ゲームクリア";
+                }
             } else {
                 console.log("不一致")
                 setTimeout(() => {
@@ -20,7 +25,7 @@ cards.forEach((card) => {
                     pairList[1].textContent = "?";
                     pairList.pop();
                     pairList.pop();
-                }, 3000);
+                }, 1000);
             }
         }
     })
