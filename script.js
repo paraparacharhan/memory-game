@@ -11,11 +11,17 @@ cards.forEach((card) => {
         if (cardList.length === 2) {
             if (cardList[0].dataset.rank === cardList[1].dataset.rank) {
                 console.log("一致");
+                cardList.pop();
+                cardList.pop();
             } else {
-                console.log("不一致");
+                console.log("不一致")
+                setTimeout(() => {
+                    cardList[0].textContent = "?";
+                    cardList[1].textContent = "?";
+                    cardList.pop();
+                    cardList.pop();
+                }, 3000);
             }
-            cardList.pop();
-            cardList.pop();
         }
     })
 })
