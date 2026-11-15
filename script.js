@@ -1,25 +1,25 @@
 const cards = document.querySelectorAll(".card");
 
-const cardList = [];
+const pairList = [];
 cards.forEach((card) => {
     card.addEventListener("click", () => {
-        if (card.textContent !== "?" || cardList.length === 2) return;
+        if (card.textContent !== "?" || pairList.length === 2) return;
         card.textContent = card.dataset.suit + card.dataset.rank;
-        cardList.push(card);
-        console.log(cardList);
+        pairList.push(card);
+        console.log(pairList);
 
-        if (cardList.length === 2) {
-            if (cardList[0].dataset.rank === cardList[1].dataset.rank) {
+        if (pairList.length === 2) {
+            if (pairList[0].dataset.rank === pairList[1].dataset.rank) {
                 console.log("一致");
-                cardList.pop();
-                cardList.pop();
+                pairList.pop();
+                pairList.pop();
             } else {
                 console.log("不一致")
                 setTimeout(() => {
-                    cardList[0].textContent = "?";
-                    cardList[1].textContent = "?";
-                    cardList.pop();
-                    cardList.pop();
+                    pairList[0].textContent = "?";
+                    pairList[1].textContent = "?";
+                    pairList.pop();
+                    pairList.pop();
                 }, 3000);
             }
         }
