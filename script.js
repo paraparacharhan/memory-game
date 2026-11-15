@@ -1,7 +1,10 @@
-const cardList = document.querySelectorAll(".card");
+const cards = document.querySelectorAll(".card");
 
-cardList.forEach((card) => {
+const cardList = [];
+cards.forEach((card) => {
     card.addEventListener("click", () => {
         card.textContent = card.textContent === "?" ? card.dataset.suit + card.dataset.rank : "?";
+        cardList.push(card);
+        console.log(cardList);
     })
 })
