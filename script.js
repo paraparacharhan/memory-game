@@ -1,18 +1,23 @@
-const button = document.createElement("button");
-button.type = "button";
-button.classList.add("card");
-button.dataset.rank = "A";
-button.dataset.suit = "♡";
-button.textContent = "?";
-
 const cardBlock = document.querySelector(".card-block");
-cardBlock.appendChild(button);
+
+const rankList = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+const suitList = ["♡", "♢", "♧", "♤"];
+
+for (const suit of suitList) {
+    for (const rank of rankList) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.classList.add("card");
+        button.dataset.rank = rank;
+        button.dataset.suit = suit;
+        button.textContent = "?";
+        cardBlock.appendChild(button);
+    }
+}
 
 const cards = Array.from(document.querySelectorAll(".card"));
 const message = document.querySelector("#clear-message");
 
-console.log(button);
-console.log(cardBlock);
 
 for (let i = cards.length - 1; i >= 0; i--) {
     let iter = Math.floor(Math.random() * (i + 1));
@@ -30,7 +35,6 @@ cards.forEach((card) => {
         if (card.textContent !== "?" || pairList.length === 2) return;
         card.textContent = card.dataset.suit + card.dataset.rank;
         pairList.push(card);
-        console.log(pairList);
 
         if (pairList.length === 2) {
             if (pairList[0].dataset.rank === pairList[1].dataset.rank) {
