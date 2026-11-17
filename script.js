@@ -5,7 +5,32 @@ function shuffle() {
         cards[i] = cards[iter];
         cards[iter] = tmp;
     }
-    console.log("shuffle");
+}
+
+function setupCard() {
+    for (const suit of suitList) {
+        for (const rank of rankList) {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.classList.add("card");
+            button.dataset.rank = rank;
+            button.dataset.suit = suit;
+            button.textContent = "?";
+            cardBlock.appendChild(button);
+        }
+    }
+}
+
+function reset() {
+    pairList.length = 0;
+    cardList.length = 0;
+    message.textContent = "";
+    clearTimeout(timer);
+    shuffle();
+    cards.forEach(c => cardBlock.appendChild(c));
+    cards.forEach((card) => {
+        card.textContent = "?";
+    })
 }
 
 const cardBlock = document.querySelector(".card-block");
@@ -13,17 +38,7 @@ const cardBlock = document.querySelector(".card-block");
 const rankList = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 const suitList = ["♡", "♢", "♧", "♤"];
 
-for (const suit of suitList) {
-    for (const rank of rankList) {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.classList.add("card");
-        button.dataset.rank = rank;
-        button.dataset.suit = suit;
-        button.textContent = "?";
-        cardBlock.appendChild(button);
-    }
-}
+setupCard();
 
 const cards = Array.from(document.querySelectorAll(".card"));
 const message = document.querySelector("#clear-message");
@@ -65,14 +80,5 @@ cards.forEach((card) => {
 const resetButton = document.querySelector(".reset-button");
 
 resetButton.addEventListener("click", () => {
-    pairList.length = 0;
-    cardList.length = 0;
-    message.textContent = "";
-    clearTimeout(timer);
-    shuffle();
-    cards.forEach(c => cardBlock.appendChild(c));
-    cards.forEach((card) => {
-        card.textContent = "?";
-    })
-    console.log("reset");
+    reset();
 })
