@@ -1,5 +1,18 @@
+const button = document.createElement("button");
+button.type = "button";
+button.classList.add("card");
+button.dataset.rank = "A";
+button.dataset.suit = "♡";
+button.textContent = "?";
+
+const cardBlock = document.querySelector(".card-block");
+cardBlock.appendChild(button);
+
 const cards = Array.from(document.querySelectorAll(".card"));
 const message = document.querySelector("#clear-message");
+
+console.log(button);
+console.log(cardBlock);
 
 for (let i = cards.length - 1; i >= 0; i--) {
     let iter = Math.floor(Math.random() * (i + 1));
@@ -8,7 +21,6 @@ for (let i = cards.length - 1; i >= 0; i--) {
     cards[iter] = tmp;
 }
 
-const cardBlock = document.querySelector(".card-block");
 cards.forEach(c => cardBlock.appendChild(c));
 
 const pairList = [];
