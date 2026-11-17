@@ -1,5 +1,16 @@
-const cards = document.querySelectorAll(".card");
+const cards = Array.from(document.querySelectorAll(".card"));
 const message = document.querySelector("#clear-message");
+
+for (let i = cards.length - 1; i >= 0; i--) {
+    let iter = Math.floor(Math.random() * (i + 1));
+    let tmp = cards[i];
+    cards[i] = cards[iter];
+    cards[iter] = tmp;
+}
+
+const cardBlock = document.querySelector(".card-block");
+cards.forEach(c => cardBlock.appendChild(c));
+console.log(cardBlock);
 
 const pairList = [];
 const cardList = [];
