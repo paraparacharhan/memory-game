@@ -1,3 +1,13 @@
+function shuffle() {
+    for (let i = cards.length - 1; i >= 0; i--) {
+        let iter = Math.floor(Math.random() * (i + 1));
+        let tmp = cards[i];
+        cards[i] = cards[iter];
+        cards[iter] = tmp;
+    }
+    console.log("shuffle");
+}
+
 const cardBlock = document.querySelector(".card-block");
 
 const rankList = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
@@ -19,17 +29,14 @@ const cards = Array.from(document.querySelectorAll(".card"));
 const message = document.querySelector("#clear-message");
 
 
-for (let i = cards.length - 1; i >= 0; i--) {
-    let iter = Math.floor(Math.random() * (i + 1));
-    let tmp = cards[i];
-    cards[i] = cards[iter];
-    cards[iter] = tmp;
-}
+shuffle();
 
 cards.forEach(c => cardBlock.appendChild(c));
 
 const pairList = [];
 const cardList = [];
+let timer = null;
+
 cards.forEach((card) => {
     card.addEventListener("click", () => {
         if (card.textContent !== "?" || pairList.length === 2) return;
@@ -44,7 +51,7 @@ cards.forEach((card) => {
                     message.textContent = "ゲームクリア";
                 }
             } else {
-                setTimeout(() => {
+                timer = setTimeout(() => {
                     pairList[0].textContent = "?";
                     pairList[1].textContent = "?";
                     pairList.pop();
@@ -53,4 +60,19 @@ cards.forEach((card) => {
             }
         }
     })
+})
+
+const resetButton = document.querySelector(".reset-button");
+
+resetButton.addEventListener("click", () => {
+    pairList.length = 0;
+    cardList.length = 0;
+    message.textContent = "";
+    clearTimeout(timer);
+    shuffle();
+    cards.forEach(c => cardBlock.appendChild(c));
+    cards.forEach((card) => {
+        card.textContent = "?";
+    })
+    console.log("reset");
 })
