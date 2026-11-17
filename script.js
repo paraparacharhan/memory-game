@@ -10,7 +10,6 @@ for (let i = cards.length - 1; i >= 0; i--) {
 
 const cardBlock = document.querySelector(".card-block");
 cards.forEach(c => cardBlock.appendChild(c));
-console.log(cardBlock);
 
 const pairList = [];
 const cardList = [];
@@ -23,14 +22,12 @@ cards.forEach((card) => {
 
         if (pairList.length === 2) {
             if (pairList[0].dataset.rank === pairList[1].dataset.rank) {
-                console.log("一致");
                 cardList.push(pairList.pop());
                 cardList.push(pairList.pop());
                 if (cardList.length === cards.length) {
                     message.textContent = "ゲームクリア";
                 }
             } else {
-                console.log("不一致")
                 setTimeout(() => {
                     pairList[0].textContent = "?";
                     pairList[1].textContent = "?";
