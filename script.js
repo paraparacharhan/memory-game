@@ -25,7 +25,7 @@ function reset() {
     pairList.length = 0;
     cardList.length = 0;
     message.textContent = "";
-    clearTimeout(timer);
+    clearTimeout(checkTimer);
     shuffle();
     cards.forEach(c => cardBlock.appendChild(c));
     cards.forEach((card) => {
@@ -33,6 +33,10 @@ function reset() {
     })
     count = 0
     counter.textContent = "試行回数 : " + 0;
+    time = 0;
+    timer.textContent = time + " 秒";
+    clearInterval(intervalId);
+    flag = true;
 }
 
 const cardBlock = document.querySelector(".card-block");
@@ -52,7 +56,14 @@ cards.forEach(c => cardBlock.appendChild(c));
 
 const pairList = [];
 const cardList = [];
-let timer = null;
+let checkTimer = null;
+let timer = document.querySelector(".timer");
+let time = 0;
+let intervalId;
+timer.textContent = time + " 秒";
+let flag = true;
+
+
 
 const counter = document.querySelector(".counter");
 counter.textContent = "試行回数 : " + 0;
@@ -60,6 +71,14 @@ let count = 0;
 
 cards.forEach((card) => {
     card.addEventListener("click", () => {
+        if (flag) {
+            flag = false;
+            intervalId = setInterval(() => {
+                time++;
+                timer.textContent = time + " 秒";
+            }, 1000);
+        }
+
         if (card.textContent !== "?" || pairList.length === 2) return;
         card.textContent = card.dataset.suit + card.dataset.rank;
         pairList.push(card);
@@ -71,10 +90,11 @@ cards.forEach((card) => {
                 cardList.push(pairList.pop());
                 cardList.push(pairList.pop());
                 if (cardList.length === cards.length) {
+                    clearInterval(intervalId);
                     message.textContent = "ゲームクリア";
                 }
             } else {
-                timer = setTimeout(() => {
+                checkTimer = setTimeout(() => {
                     pairList[0].textContent = "?";
                     pairList[1].textContent = "?";
                     pairList.pop();
