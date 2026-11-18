@@ -1,0 +1,254 @@
+/* 紙と藍インクをイメージした神経衰弱のテーマ */
+:root {
+    color-scheme: light;
+    --paper: #faf6ec;
+    --ink: #152e43;
+    --rule: #cabfac;
+    --red: #a63825;
+    --card-blue: #234e72;
+    --card-ink: #153953;
+    --engraving: rgb(221 237 239 / 30%);
+    --page-gutter: clamp(12px, 3vw, 64px);
+    font-family: "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    padding: clamp(18px, 3vw, 52px) var(--page-gutter);
+    color: var(--ink);
+    background-color: var(--paper);
+    background-image: radial-gradient(#9c88692b 0.6px, transparent 0.8px);
+    background-size: 5px 5px;
+}
+
+button {
+    font: inherit;
+    cursor: pointer;
+}
+
+button:focus-visible {
+    outline: 3px solid #ac3d21;
+    outline-offset: 3px;
+}
+
+/* 左に表題、右にゲームの情報。既存の3要素だけで配置する。 */
+.information {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto auto;
+    grid-template-areas: "mark title timer counter reset";
+    align-items: center;
+    gap: clamp(10px, 1.4vw, 26px);
+    margin-bottom: clamp(14px, 2vw, 28px);
+    padding: 0 2px clamp(14px, 1.6vw, 24px);
+    border-bottom: 3px double var(--rule);
+}
+
+/* 少しずらして重ねた2枚のカード */
+.information::before {
+    content: "♦";
+    grid-area: mark;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 43px;
+    margin-inline: 4px;
+    border: 1.5px solid var(--ink);
+    border-radius: 3px;
+    background: var(--paper);
+    color: var(--red);
+    box-shadow: -4px 3px var(--card-blue), -5px 4px var(--ink);
+    font: 27px/1 Georgia, serif;
+    transform: rotate(-9deg);
+}
+
+.information::after {
+    content: "Memory Game";
+    grid-area: title;
+    font: italic bold clamp(2.4rem, 4.4vw, 4.8rem)/1.06 Georgia, "Times New Roman", serif;
+    letter-spacing: -0.055em;
+}
+
+.timer, .counter {
+    margin: 0;
+    white-space: nowrap;
+    font-size: clamp(0.8rem, 1.1vw, 1rem);
+    font-weight: 650;
+    font-variant-numeric: tabular-nums;
+}
+
+.timer {
+    grid-area: timer;
+    display: flex;
+    align-items: center;
+    gap: 0.45em;
+}
+
+.timer::before {
+    content: "";
+    width: 1.05em;
+    height: 1.05em;
+    border: 1.5px solid currentColor;
+    border-radius: 50%;
+    background: linear-gradient(currentColor, currentColor) 50% 28% / 1.5px 34%,
+                linear-gradient(currentColor, currentColor) 65% 55% / 27% 1.5px;
+    background-repeat: no-repeat;
+}
+
+.counter {
+    grid-area: counter;
+    padding-inline-start: clamp(10px, 1.4vw, 26px);
+    border-inline-start: 1px solid var(--rule);
+}
+
+.reset-button {
+    grid-area: reset;
+    justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 7px clamp(12px, 1.4vw, 24px);
+    border: 1px solid var(--ink);
+    border-radius: 6px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+.reset-button::before {
+    content: "↻";
+    font: 1.3rem/1 system-ui, sans-serif;
+}
+
+/* 13列を上限にし、狭い画面ではカードを押せる幅まで列数を減らす。 */
+.card-block {
+    --gap: clamp(7px, 0.85vw, 16px);
+    --min-card: 62px;
+    --one-of-thirteen: calc((100% - 12 * var(--gap)) / 13);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, max(var(--min-card), var(--one-of-thirteen))), 1fr));
+    gap: var(--gap);
+    padding: clamp(12px, 1.65vw, 32px);
+    border: 1px solid #b5b2a6;
+    border-radius: 13px;
+    background: linear-gradient(135deg, #e4e5dc, #eeebe0);
+    box-shadow: inset 0 0 0 4px #f6f3e9, inset 0 0 0 5px #c8c9bf, 0 3px 0 #ccc6b7;
+}
+
+/* 表示文字はJSに任せ、全カードに同じ彫刻風の線と楕円の額を付ける。 */
+.card {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 100 / 154;
+    padding: 0;
+    border: 1px solid #aaac9e;
+    border-radius: clamp(5px, 0.6vw, 11px);
+    background: #fffaea;
+    color: #fff7e3;
+    box-shadow: 0 2px 1px #142e4330;
+    font: bold clamp(1.05rem, 1.8vw, 2.4rem)/1 Georgia, "Times New Roman", serif;
+    font-variant-numeric: lining-nums tabular-nums;
+    white-space: nowrap;
+    transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+.card::before, .card::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.card::before {
+    inset: 4%;
+    border: 3px double #ccdad9;
+    border-radius: 4%;
+    background-color: var(--card-blue);
+    background-image:
+        repeating-radial-gradient(ellipse at 0% 50%, transparent 0 4px, var(--engraving) 4.5px 5px, transparent 5.5px 8px),
+        repeating-radial-gradient(ellipse at 100% 50%, transparent 0 4px, var(--engraving) 4.5px 5px, transparent 5.5px 8px);
+}
+
+.card::after {
+    inset: 30% 11%;
+    border: 3px double #b8c7bc;
+    border-radius: 50%;
+    background: var(--card-ink);
+    box-shadow: 0 0 0 2px var(--card-ink);
+}
+
+@media (hover: hover) {
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 7px #16344a36;
+    }
+
+    .reset-button:hover {
+        background: var(--card-blue);
+    }
+}
+
+.card:active, .reset-button:active {
+    transform: translateY(1px);
+}
+
+/* 空の間は操作を遮らず、クリア時だけ中央にメッセージが現れる。 */
+#clear-message:empty {
+    display: none;
+}
+
+#clear-message:not(:empty) {
+    position: fixed;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    width: max-content;
+    max-width: calc(100% - 24px);
+    margin: 0;
+    padding: clamp(14px, 2vw, 32px) clamp(20px, 4vw, 64px);
+    border: 5px double var(--ink);
+    border-radius: 8px;
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: 0 12px 44px #10253555;
+    font: bold clamp(1.8rem, 4vw, 4.2rem)/1.2 "Hiragino Mincho ProN", "Yu Mincho", serif;
+    text-align: center;
+    pointer-events: none;
+}
+
+#clear-message:not(:empty)::before {
+    content: "♦";
+    color: var(--red);
+    font: 1.35rem/1 Georgia, serif;
+}
+
+@media (max-width: 680px) {
+    .information {
+        grid-template-columns: auto auto 1fr auto;
+        grid-template-areas: "mark title title title" "timer timer counter reset";
+        gap: 12px;
+    }
+
+    .information::after {
+        font-size: clamp(1.8rem, 8vw, 2.4rem);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card { transition: none; }
+    .card:hover, .card:active, .reset-button:active { transform: none; }
+}
