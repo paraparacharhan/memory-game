@@ -31,6 +31,8 @@ function reset() {
     cards.forEach((card) => {
         card.textContent = "?";
     })
+    count = 0
+    counter.textContent = "試行回数 : " + 0;
 }
 
 const cardBlock = document.querySelector(".card-block");
@@ -52,6 +54,10 @@ const pairList = [];
 const cardList = [];
 let timer = null;
 
+const counter = document.querySelector(".counter");
+counter.textContent = "試行回数 : " + 0;
+let count = 0;
+
 cards.forEach((card) => {
     card.addEventListener("click", () => {
         if (card.textContent !== "?" || pairList.length === 2) return;
@@ -59,6 +65,8 @@ cards.forEach((card) => {
         pairList.push(card);
 
         if (pairList.length === 2) {
+            count++
+            counter.textContent = "試行回数 : " + count;
             if (pairList[0].dataset.rank === pairList[1].dataset.rank) {
                 cardList.push(pairList.pop());
                 cardList.push(pairList.pop());
